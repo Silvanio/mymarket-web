@@ -76,7 +76,10 @@ export default class Http {
         this.http = http || standard
     }
 
-    getMethod(resource) {
+    getMethod(resource,progressBar = null) {
+        if(progressBar){
+            Vue.prototype.$mymutations.setProgressBar(true);
+        }
         return this.http
             .get(this.constructor.normalize(this.path, resource))
             .then(this.constructor.then)

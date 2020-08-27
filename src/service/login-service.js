@@ -59,4 +59,8 @@ export default class LoginService extends Service {
         AuthStorage.removeItem("authorities");
     }
 
+    createUserMyMarket(user) {
+        return this.post({resource: "/createUserMyMarket", data: user})
+    }
+
 }

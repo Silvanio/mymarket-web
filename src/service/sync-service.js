@@ -14,4 +14,13 @@ export default class SyncService extends Service {
     syncQuoteStock() {
         return this.getMethod("/syncQuoteStock");
     }
+
+    syncQuoteCrypto() {
+        return this.getMethod("/syncQuoteCrypto");
+    }
+
+    syncHistoricalIbovespa() {
+        return this.getMethod("/syncHistoricalIbovespa");
+    }
+
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid">
     <div class="p-col-12">
-      <div class="card">
+      <div class="card" >
         <h1>
           {{ title }}
           <Button style="float: right" icon="pi pi-plus-circle" class="p-button-rounded p-shadow-7" @click="openCreate" v-tooltip.left="$t('stock.lbl_create_title')"/>
@@ -90,8 +90,10 @@
                 <template #body="slotProps">
                   <Button type="button" icon="fa fa-fw fa-pencil-square-o" @click="openEdit(slotProps.data.id)" class="p-button-info"
                           style="margin-right: .5em" v-tooltip.left="$t('lbl_edit')"/>
-                  <Button type="button" icon="fa fa-fw fa-trash-o" @click="remove(slotProps.data.id)" class="p-button-warning"
+                  <Button type="button" style="margin-right: .5em" icon="fa fa-fw fa-trash-o" @click="remove(slotProps.data.id)" class="p-button-warning"
                           v-tooltip.left="$t('lbl_remove')"/>
+                  <Button type="button" icon="fa fa-fw fa-refresh"  :disabled="!slotProps.data.refreshQuote" @click="refreshQuote(slotProps.data.code)" class="p-button-success"
+                          v-tooltip.left="$t('stock.lbl_refresh_quote')"/>
                 </template>
               </Column>
               <template #empty>
@@ -125,6 +127,7 @@ import CRUDConsult from "../../../utils/CRUDConsult";
 import StockService from "../../../service/stock-service";
 import SegmentService from "../../../service/segment-service";
 import ProductService from "../../../service/product-service";
+import Vue from "vue";
 
 const stockService = new StockService();
 const segmentService = new SegmentService();
@@ -145,6 +148,13 @@ export default {
     async initConsult() {
       this.segmentList = await segmentService.list();
       this.productList = await productService.list();
+    },
+    refreshQuote(code){
+      stockService.refreshQuote(code).then((response) => {
+        Vue.prototype.$msgbus.addMessageSuccess("msg_info", response.message);
+        this.onPage();
+      }).catch(this.catchError);
+
     },
     getHintSegment(value) {
       var segment = "";

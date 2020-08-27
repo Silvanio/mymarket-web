@@ -23,6 +23,7 @@
             <small v-show="$v.entity.name.$invalid && submitted" class="p-error">{{ $t('msg_required') }}</small>
           </div>
 
+
           <div class="p-field p-col-12 p-md-4">
             <label required for="SegmentStock">{{ $t('stock.lbl_product') }}</label>
             <Dropdown id="productStock" v-model="entity.product" :options="productList" :filter="true" optionLabel="name"
@@ -57,6 +58,11 @@
             <label required for="SectorName">{{ $t('stock.lbl_sector') }}</label>
             <InputText id="SectorName" autocomplete="off"
                        disabled v-model="entity.segment.subSector.sector.name" type="text"/>
+          </div>
+
+          <div class="p-field p-col-12 p-md-4">
+            <label for="nameStock">{{ $t('stock.lbl_exchange') }}</label>
+            <InputText id="BolsaStock" autocomplete="off" v-model="entity.exchange" type="text" />
           </div>
 
           <div class="p-field p-col-12 p-md-4">

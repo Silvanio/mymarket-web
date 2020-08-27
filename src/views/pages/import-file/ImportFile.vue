@@ -20,7 +20,8 @@
             </Dropdown>
           </div>
           <div class="p-field p-col-12 p-md-12">
-            <FileUpload file="file[]" :customUpload="true" @uploader="myUploader" chooseLabel="Selecione" cancelLabel="Cancelar"/>
+            <FileUpload file="file[]" :customUpload="true" @uploader="myUploader" chooseLabel="Selecione"
+                        cancelLabel="Cancelar"/>
           </div>
 
         </div>
@@ -48,8 +49,8 @@ export default {
       fileList: [
         {label: 'STOCK', desc: this.$t('import.lbl_file_stock')},
         {label: 'SEGMENT', desc: this.$t('import.lbl_file_segment')},
-        {label: 'SEGMENT_FII', desc: this.$t('import.lbl_file_segment_fii')}
-
+        {label: 'SEGMENT_FII', desc: this.$t('import.lbl_file_segment_fii')},
+        {label: 'HISTORICAL_IBOV', desc: this.$t('import.lbl_file_historical_ibov')},
       ],
     }
   },
@@ -81,8 +82,21 @@ export default {
                 Vue.prototype.$msgbus.addMessageWarn(message.message, message.details);
               }
             });
-      } else {
+      } else if (this.typeSelect == 'SEGMENT_FII'){
         importService.uploadSegmentFII(event.files)
+            .then((response) => {
+              Vue.prototype.$msgbus.addMessageSuccess(response.message, response.message);
+              Object.assign(this.$data, this.$options.data.apply(this))
+            })
+            .catch(error => {
+              const code = error.response.status
+              if (code === 400) {
+                const message = JSON.parse(error.response.data);
+                Vue.prototype.$msgbus.addMessageWarn(message.message, message.details);
+              }
+            });
+      }else if (this.typeSelect == 'HISTORICAL_IBOV'){
+        importService.uploadHistoricalIBOV(event.files)
             .then((response) => {
               Vue.prototype.$msgbus.addMessageSuccess(response.message, response.message);
               Object.assign(this.$data, this.$options.data.apply(this))

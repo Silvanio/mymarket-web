@@ -16,7 +16,8 @@
             <Column headerStyle="text-align: center;width: 20em" :header="$t('lbl_action')"
                     bodyStyle="text-align: center; overflow: visible;width: 10em">
               <template #body="slotProps">
-                <Button type="button" icon="pi pi-play" class="p-button-primary" @click="sync(slotProps.data.action)" v-tooltip.left="slotProps.data.title"/>
+                <Button type="button" icon="pi pi-play" class="p-button-primary" @click="sync(slotProps.data.action)"
+                        v-tooltip.left="slotProps.data.title"/>
               </template>
             </Column>
           </DataTable>
@@ -43,8 +44,31 @@ export default {
       title: this.$t('sync.lbl_consult_title'),
       typeSelect: null,
       syncs: [
-        {name: this.$t('sync.lbl_historical_data'), desc: this.$t('sync.lbl_historical_data_desc'), title: this.$t('sync.lbl_consult_title'), action: "syncHistoricalDataStock"},
-        {name: this.$t('sync.lbl_quote_real_time'), desc: this.$t('sync.lbl_quote_real_time_desc'), title: this.$t('sync.lbl_consult_title'), action: "syncQuoteStock"},
+        {
+          name: this.$t('sync.lbl_historical_data'),
+          desc: this.$t('sync.lbl_historical_data_desc'),
+          title: this.$t('sync.lbl_consult_title'),
+          action: "syncHistoricalDataStock"
+        },
+        {
+          name: this.$t('sync.lbl_historical_ibovespa'),
+          desc: this.$t('sync.lbl_historical_ibovespa_desc'),
+          title: this.$t('sync.lbl_consult_title'),
+          action: "syncHistoricalIbovespa"
+        },
+        {
+          name: this.$t('sync.lbl_quote_real_time'),
+          desc: this.$t('sync.lbl_quote_real_time_desc'),
+          title: this.$t('sync.lbl_consult_title'),
+          action: "syncQuoteStock"
+        },
+        {
+          name: this.$t('sync.lbl_quote_real_time_crypto'),
+          desc: this.$t('sync.lbl_quote_real_time_crypto_desc'),
+          title: this.$t('sync.lbl_consult_title'),
+          action: "syncQuoteCrypto"
+        },
+
       ],
     }
   },
@@ -53,8 +77,12 @@ export default {
       console.log(value)
       if (value == 'syncHistoricalDataStock') {
         this.syncHistoricalDataStock();
-      } else {
-        this.syncQuoteStock()
+      } else if (value == 'syncQuoteStock') {
+        this.syncQuoteStock();
+      } else if (value == 'syncQuoteCrypto') {
+        this.syncQuoteCrypto();
+      } else if (value == 'syncHistoricalIbovespa') {
+        this.syncHistoricalIbovespa();
       }
     },
 
@@ -74,6 +102,34 @@ export default {
     },
     syncQuoteStock() {
       syncService.syncQuoteStock()
+          .then((response) => {
+            Vue.prototype.$msgbus.addMessageSuccess(response.message, response.message);
+            Object.assign(this.$data, this.$options.data.apply(this))
+          })
+          .catch(error => {
+            const code = error.response.status
+            if (code === 400) {
+              const message = JSON.parse(error.response.data);
+              Vue.prototype.$msgbus.addMessageWarn(message.message, message.details);
+            }
+          });
+    },
+    syncQuoteCrypto() {
+      syncService.syncQuoteCrypto()
+          .then((response) => {
+            Vue.prototype.$msgbus.addMessageSuccess(response.message, response.message);
+            Object.assign(this.$data, this.$options.data.apply(this))
+          })
+          .catch(error => {
+            const code = error.response.status
+            if (code === 400) {
+              const message = JSON.parse(error.response.data);
+              Vue.prototype.$msgbus.addMessageWarn(message.message, message.details);
+            }
+          });
+    },
+    syncHistoricalIbovespa() {
+      syncService.syncHistoricalIbovespa()
           .then((response) => {
             Vue.prototype.$msgbus.addMessageSuccess(response.message, response.message);
             Object.assign(this.$data, this.$options.data.apply(this))

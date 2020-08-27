@@ -3,6 +3,13 @@
   top: 70px;
 }
 
+.p-dialog .p-dialog-content {
+  padding: 3px 1.5rem !important;
+}
+
+html {
+  font-size: 15px !important;
+}
 @media screen and (max-width: 40em) {
   .p-toast {
     width: 20rem !important;

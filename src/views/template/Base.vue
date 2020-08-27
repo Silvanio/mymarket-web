@@ -80,15 +80,19 @@ export default {
               auth: this.isAuthorizedRules(["MY_MARKET_ADMIN"])
             },
             {
-              label: this.$t('menu.lbl_import_files'), icon: 'fa fa-fw fa-cloud-upload', to: '/import/file',
+              label: this.$t('menu.lbl_import_files'), icon: 'fa fa-fw fa-cloud-upload', to: '/import-file',
               auth: this.isAuthorizedRules(["MY_MARKET_ADMIN"])
             },
             {
-              label: 'Sincronizar dados', icon: 'fa fa-fw fa fa-refresh', to: '/sync/data',
+              label: this.$t('menu.lbl_sync_data'), icon: 'fa fa-fw fa fa-refresh', to: '/sync-data',
               auth: this.isAuthorizedRules(["MY_MARKET_ADMIN"])
             },
           ]
+
         },
+        {label: this.$t('menu.lbl_track_market'), icon: 'fa fa-fw fa fa-wifi', to: '/track-market',
+          auth:  this.isAuthorizedRules(["MY_MARKET_ADMIN","MY_MARKET_USER"])},
+
 
       ],
       menuActive: false,

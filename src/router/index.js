@@ -20,6 +20,7 @@ import BrokerConsult from "../views/pages/broker/BrokerConsult";
 import BrokerCreate from "../views/pages/broker/BrokerCreate";
 import ImportFile from "../views/pages/import-file/ImportFile";
 import Sync from "../views/pages/sync/Sync";
+import TrackMarket from "@/views/pages/track-market/TrackMarket";
 
 
 const ifNotAuthenticated = (to, from, next) => {
@@ -55,21 +56,21 @@ const routes = [
                 name: 'Home',
                 component: Home,
                 beforeEnter: ifAuthenticated,
-                meta: {role: ["AUTH_ADMIN", "AUTH_CLIENT_ADMIN"]}
+                meta: {role: ["MY_MARKET_USER", "MY_MARKET_ADMIN"]}
             },
             {
                 path: 'empty',
                 name: 'Empty',
                 component: EmptyPage,
                 beforeEnter: ifAuthenticated,
-                meta: {role: ["AUTH_ADMIN", "AUTH_CLIENT_ADMIN"]}
+                meta: {role: ["MY_MARKET_USER", "MY_MARKET_ADMIN"]}
             },
             {
                 path: 'account',
                 name: 'Account',
                 component: MyAccount,
                 beforeEnter: ifAuthenticated,
-                meta: {role: ["AUTH_ADMIN", "AUTH_CLIENT_ADMIN"]}
+                meta: {role: ["MY_MARKET_USER", "MY_MARKET_ADMIN"]}
 
             }
 
@@ -254,11 +255,11 @@ const routes = [
         ]
     },
     {
-        path: '/import',
+        path: '/import-file',
         component: Base,
         children: [
             {
-                path: 'file',
+                path: '',
                 name: 'ImportFile',
                 component: ImportFile,
                 beforeEnter: ifAuthenticated,
@@ -267,15 +268,28 @@ const routes = [
         ]
     },
     {
-        path: '/sync',
+        path: '/sync-data',
         component: Base,
         children: [
             {
-                path: 'data',
+                path: '',
                 name: 'SyncData',
                 component: Sync,
                 beforeEnter: ifAuthenticated,
                 meta: {role: ["MY_MARKET_ADMIN"]}
+            },
+        ]
+    },
+    {
+        path: '/track-market',
+        component: Base,
+        children: [
+            {
+                path: '',
+                name: 'TrackMarket',
+                component: TrackMarket,
+                beforeEnter: ifAuthenticated,
+                meta: {role: ["MY_MARKET_ADMIN","MY_MARKET_USER"]}
             },
         ]
     },

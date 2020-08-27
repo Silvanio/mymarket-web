@@ -7,14 +7,14 @@ export default {
         return {
             itemSelected: null,
             popRemoveItem: false,
-            page: {
-                content: [],
-                totalElements: 0
-            },
             statusList: [
                 {label: 'ACTIVE', desc: this.$t('lbl_active')},
                 {label: 'INACTIVE', desc: this.$t('lbl_inactive')}
             ],
+            page: {
+                content: [],
+                totalElements: 0
+            },
             pageable: {
                 pageSize: 10,
                 pageNumber: 0,

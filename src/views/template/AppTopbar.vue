@@ -1,8 +1,8 @@
 <template>
     <div class="topbar clearfix">
         <div class="topbar-left">
-            <img alt="Logo" src="@/assets/images/ic_logo_white.png" class="topbar-logo"/>
-            <span class="logo-name">MyServices</span>
+           <!-- <img alt="Logo" src="@/assets/images/ic_logo_white.png" class="topbar-logo"/>-->
+            <span class="logo-name">MyMarket</span>
         </div>
 
         <div class="topbar-right">
@@ -34,19 +34,12 @@
                     </transition>
                 </li>
 
-
-
-
                 <li v-if="profileMode === 'top' || horizontal"
                     :class="['profile-item', {'active-top-menu': activeTopbarItem === 'profile'}]"
                     @click="$emit('topbar-item-click',{originalEvent:$event,item:'profile'})">
                     <button class="p-link">
                         <img alt="User" v-show="isDesktop" class="profile-image" src="@/assets/images/avatar.png"/>
                         <img alt="User" v-show="!isDesktop" class="profile-image" src="@/assets/images/avatar_black.png"/>
-                        <span class="topbar-item-name">
-                            {{ this.user.name }}
-
-                        </span>
                     </button>
 
                     <transition name="layout-submenu-container">

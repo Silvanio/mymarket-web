@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 
 import './assets/theme.css';
-
 import 'primevue/resources/primevue.min.css';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css'
@@ -46,9 +45,13 @@ import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Fieldset from 'primevue/fieldset';
 import FileUpload from 'primevue/fileupload';
+import VueApexCharts from 'vue-apexcharts'
+import Chart from 'primevue/chart';
+
 
 import {mutations, store} from "./utils/store";
 import {eventMessageBus} from "./utils/event-message-bus";
+import {eventSocketStockBus} from "./utils/socket-stock-bus";
 import {authBus} from "./utils/auth";
 
 
@@ -83,8 +86,11 @@ Vue.component('Accordion', Accordion);
 Vue.component('AccordionTab', AccordionTab);
 Vue.component('Fieldset', Fieldset);
 Vue.component('FileUpload', FileUpload);
+Vue.component('apexchart', VueApexCharts)
+Vue.component('Chart', Chart)
 
 
+Vue.use(VueApexCharts)
 Vue.use(Vuelidate)
 Vue.use(ToastService);
 Vue.use(VueI18n)
@@ -95,8 +101,7 @@ Vue.prototype.$mystory = store;
 Vue.prototype.$mymutations = mutations;
 Vue.prototype.$msgbus = eventMessageBus;
 Vue.prototype.$authbus = authBus;
-
-
+Vue.prototype.$socketstock = eventSocketStockBus;
 
 let message = require('./assets/i18n/message.js')
 
@@ -118,6 +123,17 @@ Vue.filter('formatDateHour', function(value) {
   if (value) {
     return moment(String(value)).format('DD/MM/YYYY hh:mm')
   }
+});
+
+Vue.filter('toCurrency', function (value) {
+  if (typeof value !== "number") {
+    return value;
+  }
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    currency: 'BRL',
+    minimumFractionDigits: 2
+  });
+  return formatter.format(value);
 });
 
 

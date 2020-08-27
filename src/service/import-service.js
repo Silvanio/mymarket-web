@@ -23,4 +23,10 @@ export default class ImportService extends Service {
         formData.append('file', files[0]);
         return this.post({resource: "/uploadSegmentFII", data: formData})
     }
+
+    uploadHistoricalIBOV(files) {
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        return this.post({resource: "/uploadHistoricalIBOV", data: formData})
+    }
 }
